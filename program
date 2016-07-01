@@ -1,0 +1,118 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+namespace ConsoleApplication28
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            char yesorno = 'Y';
+            while (yesorno == 'Y' || yesorno == 'y')
+            {
+                Console.WriteLine("What is the latitude and longitude of your location?" + '\n' + " (Ex: 33.75 N 84.00 W, if either one equals 0 write 0.00 M.)");
+                string location = Console.ReadLine();
+                string[] locationData = location.Split(' ');
+                string latstring1 = locationData[0];
+                string northsouthstring1 = locationData[1];
+                string longstring1 = locationData[2];
+                string eastweststring1 = locationData[3];
+                char[] northsoutharray1 = northsouthstring1.ToCharArray();
+                char northsouth1 = northsoutharray1[0];
+                char[] eastwestarray1 = eastweststring1.ToCharArray();
+                char eastwest1 = eastwestarray1[0];
+                double latitude1 = Convert.ToDouble(latstring1);
+                double longitude1 = Convert.ToDouble(longstring1);
+ 
+                Console.WriteLine("What is the latitude and longitude of your destination?");
+                string destination = Console.ReadLine();
+                string[] destinationData = destination.Split(' ');
+                string latstring2 = destinationData[0];
+                string northsouthstring2 = destinationData[1];
+                string longstring2 = destinationData[2];
+                string eastweststring2 = destinationData[3];
+                char[] northsoutharray2 = northsouthstring2.ToCharArray();
+                char northsouth2 = northsoutharray2[0];
+                char[] eastwestarray2 = eastweststring2.ToCharArray();
+                char eastwest2 = eastwestarray2[0];
+                double latitude2 = Convert.ToDouble(latstring2);
+                double longitude2 = Convert.ToDouble(longstring2);
+ 
+                double pi = Math.PI;
+                int r = 3960;
+                double a1 = 0;
+                double b1 = 0;
+                double a2 = 0;
+                double b2 = 0;
+
+                if (northsouth1 == 'N' || northsouth1 == 'n')
+                    {
+                    a1 = (90 - latitude1) * pi / 180;
+                    }
+                else if (northsouth1 == 'S' || northsouth1 == 's')
+                    {
+                    a1 = (90 + latitude1) * pi / 180;
+                    }
+                else
+                    {
+                    a1 = pi / 2;
+                    }
+
+                 if (eastwest1 == 'E' || eastwest1 == 'e')
+                    {
+                    b1 = longitude1 * pi / 180;
+                    }
+                 else if (eastwest1 == 'W' || eastwest1 == 'w')
+                    {
+                    b1 = (360 - longitude1) * pi / 180;
+                    }
+                else
+                    {
+                    b1 = 0;
+                    }
+                
+                    if (northsouth2 == 'N' || northsouth2 == 'n')
+                    {
+                    a2 = (90 - latitude2) * pi / 180;
+                    }
+                else if (northsouth2 == 'S' || northsouth2 == 's')
+                    {
+                    a2 = (90 + latitude2) * pi / 180;
+                    }
+                else
+                    {
+                    a2 = pi / 2;
+                    }
+
+                 if (eastwest2 == 'E' || eastwest2 == 'e')
+                    {
+                    b2 = longitude2 * pi / 180;
+                    }
+                else if (eastwest2 == 'W' || eastwest2 == 'w')
+                    {
+                    b2 = (360 - longitude2) * pi / 180;
+                    }
+                else
+                    {
+                    b2 = 0;
+                    }
+
+                double x1 = r * Math.Sin(a1) * Math.Cos(b1);
+                double y1 = r * Math.Sin(a1) * Math.Sin(b1);
+                double z1 = r * Math.Cos(a1);
+                double x2 = r * Math.Sin(a2) * Math.Cos(b2);
+                double y2 = r * Math.Sin(a2) * Math.Sin(b2);
+                double z2 = r * Math.Cos(a2);
+                double straightlineSqr = Math.Pow((x1 - x2), 2) + Math.Pow((y1 - y2), 2) + Math.Pow((z1 - z2), 2));
+                double preAns = 1 – (straightlineSqr / (2 * Math.Pow(r, 2)));
+                double ans = r * Math.Acos(preAns);
+                    double ansKm = ans * 1.609344
+                Console.WriteLine("The great circle distance from your current location to your destination is " + '\n' +  Math.Round(ans, 2) + " miles (” + Math.Round(ansKm, 2) + " kilometers).");
+                Console.WriteLine("Continue?");
+                yesorno = Console.ReadLine().ToCharArray()[0];
+            }
+        }
+    }
+}
